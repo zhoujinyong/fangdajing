@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>放大镜效果</title>
+	<script src="../function.js" type="text/javascript"></script>
+	<script src="animate.js" type="text/javascript"></script>
+</head>
+<style type="text/css">
+	*{
+		padding: 0;
+		margin: 0;
+		border: 0;
+		text-decoration: none;
+		list-style: none;
+	}
+	#small-box{
+		width: 200px;
+		height: 200px;
+		position: relative;
+		overflow: hidden;
+		margin: 40px;
+		float: left;
+		border: 1px solid red;
+	}
+	#zhao{
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		left: 0;
+		top:0;
+		background: #000;
+		opacity: 0.4;
+		display: none;
+	}
+	#big-box{
+		width: 400px;
+		height: 400px;
+		overflow: hidden;
+		margin: 40px;
+		float: left;
+		border: 1px solid red;
+	}
+	#bomo{
+		position: absolute;
+		left: 0;
+		top:0;
+		width: 100%;
+		height: 100%;
+	}
+	#small-img{
+		width: 400px;
+	}
+</style>
+<body>
+	<div id="small-box">
+		<img id="small-img" src="1.jpg">
+		<div id="zhao"></div>
+		<div id="bomo"></div>
+	</div>
+
+	<div id="big-box">
+		<img id="big-img" src="1.jpg">
+	</div>
+</body>
+<script type="text/javascript">
+	var small_box=$("#small-box")
+	var big_box=$("#big-box")
+	var zhao=$("#zhao")
+	var small_img=$("#small-img")
+	var big_img=$("#big-img")
+	var bw=big_box.offsetWidth;
+	var zw=parseInt(getStyle(zhao,"width"));
+	var zh=parseInt(getStyle(zhao,"height"));
+	var bili=bw/zw
+	// console.log(bili)
+	var sw=small_img.offsetWidth;
+	console.log(sw)
+	var sboxW=small_box.offsetWidth;
+	var sboxH=small_box.offsetHidth;
+	big_img.style.width=sw*bili+"px";
+	hover(small_box,function(){
+		zhao.style.display="block"
+	},function(){
+		zhao.style.display="none"
+	})
+	small_box.onmousemove=function(e){
+		var e=e||window.event;
+		var ox=e.offsetX;
+		var oy=e.offsetY;
+		// console.log(ox,oy)
+		var left=ox-zw/2;
+		var top=oy-zh/2;
+		if(left<=0){
+			left=0;
+		}
+		if(top<=0){
+			top=0
+		}
+		if(left>=sboxW-zw){
+			left=sboxW-zw
+		}
+		if(top>=sboxH-zh){
+			top=sboxH-zh
+		}
+		zhao.style.left=left+"px"
+		zhao.style.top=top+"px"
+
+		big_img.style.marginLeft=-left*bili+"px"
+		big_img.style.marginTop=-top*bili+"px"
+	}
+</script>
+</html>
